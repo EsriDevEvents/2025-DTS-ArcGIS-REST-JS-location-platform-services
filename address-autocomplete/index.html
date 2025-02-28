@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address Autocomplete Demo</title>
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
+  <body>
+    <form id="address-form" class="md:container md:mx-auto my-8">
+      <h1 class="text-4xl font-bold mb-3">
+        Enter Your Address
+      </h1>
+
+      <calcite-label>
+        Street Address
+
+        <calcite-combobox id="street-address-input" allow-custom-values clear-disabled required selection-display="single"
+          selection-mode="single-persist">
+        </calcite-combobox>
+
+        <input id="street-address" type="hidden" name="street-address">
+      </calcite-label>
+
+      <fieldset class="columns-3">
+        <calcite-label>
+          City
+          <calcite-input-text id="city-input" name="city"></calcite-input-text>
+        </calcite-label>
+        
+        <calcite-label>
+          State/Region
+          <calcite-input-text  id="region-input" name="region"></calcite-input-text>
+        </calcite-label>
+
+        <calcite-label>
+          Zip/Postal Code
+          <calcite-input-text  id="postal-input" name="postal"></calcite-input-text>
+        </calcite-label>
+      </fieldset>
+      
+      <calcite-label>
+        Country
+        <calcite-input-text id="country-input" name="country"></calcite-input-text>
+      </calcite-label>
+
+      <calcite-button type="submit" form="address-form">Submit</calcite-button>
+    </form>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

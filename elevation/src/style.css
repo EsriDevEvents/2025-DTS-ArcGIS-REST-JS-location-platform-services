@@ -1,0 +1,92 @@
+@import "https://js.arcgis.com/calcite-components/3.0.3/calcite.css";
+@import "https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css";
+@import "https://js.arcgis.com/map-components/4.32/arcgis-map-components.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+arcgis-map {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vh;
+}
+
+#control {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: flex;
+  flex-direction: row;
+  z-index: 2;
+  padding: 10px;
+    box-shadow: var(--calcite-shadow-sm);
+}
+
+html,
+body,
+arcgis-map,
+arcgis-chart {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+calcite-menu-item {
+  --calcite-menu-background-color: var(--calcite-color-background);
+}
+
+calcite-navigation-logo {
+  --calcite-navigation-logo-heading-color: var(--calcite-color-brand);
+}
+
+.grid-container {
+  margin: 2rem;
+  height: 100%;
+  max-height: calc(100% - 64px);
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.4fr 1fr;
+  gap: 2rem 2rem;
+  grid-template-areas:
+    "panel-info"
+    "panel-map";
+}
+
+.panel-map {
+  grid-area: panel-map;
+}
+
+.panel-info {
+  grid-area: panel-info;
+}
+
+.grid-container calcite-panel {
+  box-shadow: var(--calcite-shadow-sm);
+}
+
+@media screen and (max-width: 800px) {
+  .panel-start {
+    max-height: 40vh;
+  }
+
+  .panel-map {
+    height: 40vh;
+  }
+}
+
+calcite-panel {
+  border-block-start: 0;
+}
+
+calcite-shell {
+  background-color: var(--calcite-color-background);
+}
+
+.esri-popup--shadow {
+  box-shadow: var(--calcite-shadow-sm);
+}

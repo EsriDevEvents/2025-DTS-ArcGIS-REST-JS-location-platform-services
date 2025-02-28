@@ -1,0 +1,34 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>ArcGIS Maps SDK for JavaScript: Get elevation at many points</title>
+  <link rel="stylesheet" href="./src/style.css">
+  <script src="./src/main.js" type="module"></script>
+</head>
+
+<body>
+
+
+  <calcite-shell>
+    <calcite-navigation slot="header" id="nav">
+      <calcite-navigation-logo href="#" icon="viewshed" alt="Application logo" slot="logo" heading="My demo application" description="Esri Developer & Technology Summit"></calcite-navigation-logo>
+    </calcite-navigation>
+  
+    <calcite-panel>
+      <div class="grid-container">
+        <calcite-panel class="panel-map" heading="Map Panel">
+          <arcgis-map basemap="arcgis/navigation" center="174.8,-41.28" zoom="12">
+            <arcgis-zoom position="bottom-right"></arcgis-zoom>
+          </arcgis-map>
+        </calcite-panel>
+        <calcite-panel class="panel-info" heading="Metric Panel 1">
+          <arcgis-chart id="elevation-profile"></arcgis-chart>
+        </calcite-panel>
+      </div>
+    </calcite-panel>
+  </calcite-shell>
+</body>
+
+</html>
