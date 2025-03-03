@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feature Service Demo</title>
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
+  <body>
+    <calcite-shell>
+      <div class="grid-container">
+        <calcite-panel class="panel-start" heading="Alternative Fuel Stations">
+        <calcite-block open collapsible heading="Distance"></calcite-block>
+        <calcite-block open collapsible heading="Fuel Type">
+          <div class="filter-container">
+            <calcite-chip-group placeholder="Select a fuel type" selection-mode="multiple">
+              <calcite-chip kind="neutral" value="ELEC" id="electric">Electric</calcite-chip>
+              <calcite-chip kind="neutral" value="E85" id="ethanol">Ethanol</calcite-chip>
+              <calcite-chip kind="neutral" value="LPG" id="propane">Propane</calcite-chip>
+              <calcite-chip kind="neutral" value="BD" id="biodiesel">Biodiesel</calcite-chip>
+              <calcite-chip kind="neutral" value="RD" id="renewable-diesel">Renewable Diesel</calcite-chip>
+              <calcite-chip kind="neutral" value="CNG" id="compressed-natural-gas">Compressed Natural Gas</calcite-chip>
+              <calcite-chip kind="neutral" value="HY" id="hydrogen">Hydrogen</calcite-chip>
+              <calcite-chip kind="neutral" value="LNG" id="liquified-natural-gas">Liquified Natural Gas</calcite-chip>
+            </calcite-chip-group>
+          </div>
+        </calcite-block>
+      </calcite-panel>
+      <calcite-panel class="panel-results">
+        <div class="card-container"></div>
+      </calcite-panel>
+      </div>
+    </calcite-shell>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

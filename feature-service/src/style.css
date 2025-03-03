@@ -1,0 +1,70 @@
+.grid-container {
+  margin: 2rem;
+  height: 100%;
+  max-height: calc(100% - 64px);
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: minmax(18rem, 0.5fr) 1fr 1fr;
+  grid-template-rows: 0.4fr 1fr 1fr;
+  gap: 2rem 2rem;
+  grid-template-areas:
+    "panel-start panel-results panel-results"
+    "panel-start panel-results panel-results"
+    "panel-start panel-results panel-results";
+}
+.panel-results {
+  grid-area: panel-results;
+}
+
+.panel-start {
+  grid-area: panel-start;
+}
+
+.grid-container calcite-panel {
+  box-shadow: var(--calcite-shadow-sm);
+}
+
+@media screen and (max-width: 800px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-areas: "panel-start" "panel-results";
+  }
+  .panel-start {
+    max-height: 40vh;
+  }
+  .panel-map {
+    height: 40vh;
+  }
+}
+
+calcite-panel {
+  border-block-start: 0;
+}
+
+calcite-shell {
+  background-color: var(--calcite-color-background);
+}
+
+calcite-label:last-of-type {
+  --calcite-label-margin-bottom: 0;
+}
+
+calcite-list-item calcite-chip {
+  margin-inline-end: 0.5rem;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(max(300px, calc(25% - min(2vw, 2rem))), 1fr)
+  );
+  grid-auto-rows: max-content;
+  grid-row-end: 3;
+  gap: min(2vh, 2rem) min(2vw, 2rem);
+  padding: min(4vh, 2rem) min(4vw, 2rem);
+
+  @media (min-width: 768px) {
+    grid-row-end: auto;
+  }
+}
