@@ -1,0 +1,54 @@
+@import "https://js.arcgis.com/calcite-components/3.0.3/calcite.css";
+@import "https://js.arcgis.com/4.32/@arcgis/core/assets/esri/themes/light/main.css";
+@import "https://js.arcgis.com/map-components/4.32/arcgis-map-components.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#control {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+}
+
+.categoryButton {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  background-color: var(--calcite-ui-foreground-1);
+}
+
+#resultList calcite-block:hover,
+header {
+  background: var(--calcite-ui-foreground-2);
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.leaflet-popup-content {
+  font-size: 1.25em;
+}
+
+#map, .map-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.esri-dynamic-attribution {
+  max-width: calc(100% - 600px);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+}
