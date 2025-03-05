@@ -1,7 +1,12 @@
+import "@esri/calcite-components/dist/calcite/calcite.css";
+import { defineCustomElements } from "@esri/calcite-components/dist/loader";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import { solveRoute, closestFacility } from "@esri/arcgis-rest-routing";
+import { solveRoute } from "@esri/arcgis-rest-routing";
 
-
+// load the calcite components
+defineCustomElements(window, {
+  resourcesUrl: "https://js.arcgis.com/calcite-components/2.5.1/assets",
+});
 
 // Create a new authentication from API key stored in the .env file
 const apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
@@ -23,10 +28,9 @@ const endLayerGroup = L.layerGroup().addTo(map);
 
 const routeLines = L.layerGroup().addTo(map);
 
-const directions = document.createElement("div");
-directions.id = "directions";
-directions.innerHTML = "Click on the map to create a start and end for the route.";
-document.body.appendChild(directions);
+const directions = document.getElementById("directions")
+directions.innerHTML =
+  "Click on the map to create a start and end for the route.";
 
 
 let currentStep = "start";
@@ -45,9 +49,9 @@ function updateRoute() {
 
       // use the response data to display the directions' features
       const directionsHTML = response.directions[0].features
-        .map((f) => f.attributes.text)
+        .map((f) => `<li>${f.attributes.text}</li>`)
         .join("<br/>");
-      directions.innerHTML = directionsHTML;
+      directions.innerHTML = `<ul class="directions-list">${directionsHTML}</ul>`;
       startCoords = null;
       endCoords = null;
     })
