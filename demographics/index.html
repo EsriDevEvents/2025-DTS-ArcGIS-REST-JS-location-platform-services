@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demographics Demo</title>
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
+  <body>
+    <calcite-shell class="calcite-mode-light">
+      <calcite-navigation navigation-action slot="header" id="nav">
+      <calcite-navigation-logo href="#" icon="footprint" alt="Application logo" slot="logo"
+        heading="arcgis-rest-demographics demo" description="Esri Developer & Technology Summit"></calcite-navigation-logo>
+      </calcite-navigation>
+     
+
+      <calcite-shell content-behind class="example-shell calcite-mode-dark">
+        <calcite-navigation slot="header">
+          <calcite-navigation-logo thumbnail="./images/logo.svg" alt="Application logo" slot="logo"
+            heading="Portland Household Demographics "></calcite-navigation-logo>
+        </calcite-navigation>
+
+        <div id="map"></div>
+
+        <calcite-alert open icon="effects" slot="alerts">
+          <div slot="message">Click anywhere on the map to view demographic data within a one mile radius.</div>
+        </calcite-alert>
+      </calcite-shell>
+    </calcite-shell>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
