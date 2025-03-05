@@ -1,0 +1,20 @@
+{
+  "name": "demographics",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-demographics": "^4.0.3",
+    "@esri/arcgis-rest-request": "^4.3.0",
+    "@esri/calcite-components": "^3.0.3",
+    "maplibre-gl": "^5.2.0"
+  }
+}
