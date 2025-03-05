@@ -1,0 +1,50 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="./src/main.js" type="module"></script>
+  <link rel="stylesheet" href="./src/style.css" />
+  <title>ArcGIS Maps SDK for JavaScript: Place browser</title>
+</head>
+
+<body>
+  
+
+ 
+
+  <calcite-alert id="alert" kind="danger" hidden label="Places search information" scale="s" icon="information">
+    <div slot="title">Place search</div>
+    <div slot="message">No results found. Please try again.</div>
+  </calcite-alert>
+
+  <calcite-shell>
+    <calcite-shell-panel slot="panel-start">
+      <calcite-panel heading="Maps SDK for JavaScript" description="Showcased product">
+        <calcite-input type="text" id="searchInput" placeholder="Type in a place name or category" slot="header-content">
+          <calcite-button kind="neutral" icon-start="x" id="closeButton" type="submit" slot="action" class="hide"
+            appearance="outline-fill"></calcite-button>
+          <calcite-button kind="brand" icon-start="search" id="searchButton" type="submit" slot="action"></calcite-button>
+        </calcite-input>
+  
+        <calcite-flow id="flowPanel" class="hide">
+          <calcite-flow-item id="resultsFlowItem" heading="Results" summary="Select a place to view details">
+            <calcite-list id="resultList"></calcite-list>
+          </calcite-flow-item>
+        </calcite-flow>
+  
+      </calcite-panel>
+    </calcite-shell-panel>
+   
+    <div class="map-wrapper">
+      <div id="map"></div>
+      
+      <div id="control">
+        <calcite-chip-group id="categoryButtons" label="category-group-label" selection-mode="none" slot="content-center"
+          scale="m"></calcite-chip-group>
+      </div>
+    </div>
+  </calcite-shell>
+</body>
+
+</html>
