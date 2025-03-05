@@ -1,4 +1,11 @@
+// import Calcite and Leaflet styles
 import "@esri/calcite-components/dist/calcite/calcite.css";
+import "leaflet/dist/leaflet.css";
+
+// import the setup for the calcite components
+import { defineCustomElements } from "@esri/calcite-components/dist/loader";
+
+// import the ArcGIS REST JS modules
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import {
   getCategories,
@@ -6,25 +13,27 @@ import {
   findPlacesNearPoint,
   getPlaceDetails,
 } from "@esri/arcgis-rest-places";
-import { defineCustomElements } from "@esri/calcite-components/dist/loader";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 
+// import the Leaflet libraries for the map
+import L from "leaflet";
 import { vectorBasemapLayer } from "esri-leaflet-vector";
 
-// load the calcite components
+// define Calcite Components
 defineCustomElements(window, {
   resourcesUrl: "https://js.arcgis.com/calcite-components/3.0.3/assets",
 });
 
+// setup REST JS authentication with the API key
 const apiKey = import.meta.env.VITE_ARCGIS_API_KEY;
 const authentication = ApiKeyManager.fromKey(apiKey);
 
+// get the categories for the places
 const { categories } = await getCategories({
   authentication,
   icon: "png",
 });
 
+// get the elements from the DOM
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
 const closeButton = document.getElementById("closeButton");
@@ -33,7 +42,7 @@ const resultsList = document.getElementById("resultList");
 const resultsFlowItem = document.getElementById("resultsFlowItem");
 const alert = document.getElementById("alert");
 
-// Buttons
+// setup the category buttons
 const placeTypes = [
   {
     name: "Default",
@@ -101,16 +110,27 @@ const placeTypes = [
   },
 ];
 
+// flag to prevent multiple requests
 let processing = false;
+
+// currently selected place
 let flowItem;
 
+// set the default place type
 let activePlaceType = getPlaceType("Restaurants");
 searchInput.value = activePlaceType.name;
+
+// active text and map location
 let activeSearchText = null;
 let activeLocation = null;
+
+// size of the search radius when the map is clicked
 const radiusBase = 100;
+
+// number of items per page to fetch from the service
 const pageSize = 20;
 
+// create the category buttons
 placeTypes.forEach((placeType) => {
   if (!placeType.isButton) return;
   const categoryButton = L.DomUtil.create("calcite-chip", "categoryButton");
@@ -125,7 +145,9 @@ placeTypes.forEach((placeType) => {
   }
 
   categoryButton.addEventListener("calciteChipSelect", (e) => {
-    if (processing) return;
+    if (processing) {
+      return;
+    }
     searchInput.value = placeType.name;
     activeSearchText = ""; // Don't use search text for strict searches
     activePlaceType = getPlaceType(e.currentTarget.value);
@@ -147,27 +169,12 @@ placeTypes.forEach((placeType) => {
   categoryButtons.append(categoryButton);
 });
 
+// get the place type by name
 function getPlaceType(name) {
   return placeTypes.find((placeType) => placeType.name === name);
 }
 
-const map = L.map("map", {
-  minZoom: 13,
-  maxZoom: 18,
-}).setView([34.0566, -117.195], 14); // Redlands, California
-
-const basemapEnum = "arcgis/navigation";
-
-vectorBasemapLayer(basemapEnum, {
-  apiKey: apiKey,
-}).addTo(map);
-
-map.zoomControl.setPosition("bottomright");
-
-const radiusLayer = L.layerGroup().addTo(map);
-const placesLayer = L.layerGroup().addTo(map);
-
-// Get places in the map extent
+// get places in the map extent
 async function getPlacesExtent() {
   if (!processing) {
     processing = true;
@@ -202,10 +209,12 @@ async function getPlacesExtent() {
 
     if (response.results.length > 0) {
       showPanel(true);
+
       response.results.forEach((searchResult) => {
         addMarker(searchResult);
         addSearchResult(searchResult);
       });
+
       while (response.nextPage) {
         response = await response.nextPage();
         response.results.forEach((searchResult) => {
@@ -250,11 +259,13 @@ async function getPlacesNearby(latLng) {
     let response = await findPlacesNearPoint(params);
     if (response.results.length > 0) {
       showPanel(true);
+
       response.results.forEach((searchResult) => {
         addMarker(searchResult);
         addSearchResult(searchResult);
       });
 
+      // REST JS adds a nextPage function to the response object when there is another page of results
       while (response.nextPage) {
         response = await response.nextPage();
         response.results.forEach((searchResult) => {
@@ -274,6 +285,7 @@ async function getPlacesNearby(latLng) {
   processing = false;
 }
 
+// add marker and popup to the map
 function addMarker(searchResult) {
   let icon = getIconMarkerLookUp(searchResult.categories);
 
@@ -289,6 +301,7 @@ function addMarker(searchResult) {
   marker.id = searchResult.placeId; // set place id
 }
 
+// get the category icon for the marker
 function getIconMarkerLookUp(forCategory) {
   let icon = categories.find((elt) => {
     return forCategory[0].categoryId == elt.categoryId;
@@ -303,6 +316,7 @@ function getIconMarkerLookUp(forCategory) {
   });
 }
 
+// find the marker by place id
 function findMarker(id) {
   return placesLayer.getLayers().find((item) => item.id === id);
 }
@@ -337,10 +351,12 @@ async function getAllPlaceDetails(id) {
   }
 }
 
+// Show the details of the place
 function showDetails(placeDetails) {
   if (flowItem) {
     flowItem.remove();
   }
+
   flowItem = document.createElement("calcite-flow-item");
   flowItem.setAttribute("id", placeDetails.placeId);
   flowItem.heading = placeDetails.name;
@@ -377,12 +393,14 @@ function showDetails(placeDetails) {
       ? `www.instagram.com/${placeDetails.socialMedia.instagram}`
       : null
   );
+
   flowItem.addEventListener("calciteFlowItemBack", closeItem);
   flowPanel.append(flowItem);
   flowItem.selected = true;
   resultsFlowItem.selected = false;
 }
 
+// format the category names for display in the panel
 function formatCategoryNames(categories) {
   let categoryLabel = "";
   categories.forEach((category, i) => {
@@ -392,6 +410,7 @@ function formatCategoryNames(categories) {
   return categoryLabel;
 }
 
+// add a block to the flow item for displaying place details
 function addBlock(heading, icon, validValue) {
   console.log(heading, icon, validValue);
   if (validValue) {
@@ -408,6 +427,7 @@ function addBlock(heading, icon, validValue) {
   }
 }
 
+// clear the places from the map and the list
 function clearPlaces() {
   placesLayer.clearLayers();
   if (flowItem) flowItem.remove();
@@ -415,6 +435,7 @@ function clearPlaces() {
   map.closePopup();
 }
 
+// pan to the place and open the popup
 function goToPlace(placeId, zoom) {
   const marker = findMarker(placeId);
   if (zoom) {
@@ -423,17 +444,74 @@ function goToPlace(placeId, zoom) {
   marker.openPopup();
 }
 
+// zoom to the place when clicked and show its details
 function clickZoom(e) {
   getAllPlaceDetails(e.target.id, e.latLng);
 }
 
-function closeItem(item) {
+// close the flow item and show the results
+function closeItem() {
   flowItem.selected = false;
   resultsFlowItem.selected = true;
   map.closePopup();
 }
 
-// Add circle to map and search
+// get the radius of the search circle for when the map is clicked
+function getRadius() {
+  let radius = radiusBase * (Math.exp(map.getMaxZoom() - map.getZoom()) / 3);
+  radius = radius < 1000 ? radius : 1000;
+  return radius;
+}
+
+// show an alert when no places are found
+function showAlert(visible, message) {
+  if (visible) {
+    alert.removeAttribute("hidden");
+    alert.open = true;
+  } else {
+    alert.open = false;
+  }
+}
+
+// show or hide the close button when searching
+function resetSearch(visible) {
+  if (visible) {
+    closeButton.classList.remove("hide");
+  } else {
+    closeButton.classList.add("hide");
+  }
+}
+
+// show of hide the results panel
+function showPanel(visible) {
+  if (visible) {
+    flowPanel.classList.remove("hide");
+  } else {
+    flowPanel.classList.add("hide");
+  }
+}
+
+// setup the map and basemap
+const map = L.map("map", {
+  minZoom: 13,
+  maxZoom: 18,
+}).setView([34.0566, -117.195], 14); // Redlands, California
+
+const basemapEnum = "arcgis/navigation";
+
+vectorBasemapLayer(basemapEnum, {
+  apiKey: apiKey,
+}).addTo(map);
+
+map.zoomControl.setPosition("bottomright");
+
+// houder for the radius circle
+const radiusLayer = L.layerGroup().addTo(map);
+
+// holder for the places markers
+const placesLayer = L.layerGroup().addTo(map);
+
+// add circle to map and search
 map.on("click", function (e) {
   if (processing) return;
 
@@ -450,29 +528,7 @@ map.on("click", function (e) {
   getPlacesNearby(e.latlng);
 });
 
-function getRadius() {
-  let radius = radiusBase * (Math.exp(map.getMaxZoom() - map.getZoom()) / 3);
-  radius = radius < 1000 ? radius : 1000;
-  return radius;
-}
-
-function showAlert(visible, message) {
-  if (visible) {
-    alert.removeAttribute("hidden");
-    alert.open = true;
-  } else {
-    alert.open = false;
-  }
-}
-
-function resetSearch(visible) {
-  if (visible) {
-    closeButton.classList.remove("hide");
-  } else {
-    closeButton.classList.add("hide");
-  }
-}
-
+// search for places when the enter key is pressed
 searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     activeSearchText = searchInput.value;
@@ -481,12 +537,14 @@ searchInput.addEventListener("keypress", (e) => {
   }
 });
 
+// search for places when the search button is clicked
 searchButton.addEventListener("click", (e) => {
   activeSearchText = searchInput.value;
   activePlaceType = getPlaceType("Default");
   getPlacesExtent();
 });
 
+// clear the search and show the search button when the close button for a search is clicked
 closeButton.addEventListener("click", (e) => {
   activeSearchText = searchInput.value = "";
   activePlaceType = getPlaceType("Default");
