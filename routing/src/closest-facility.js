@@ -161,8 +161,9 @@ const routeLines = L.layerGroup().addTo(map);
 
 const directions = document.getElementById("directions");
 directions.innerHTML =
-  "Click on the map to create a start and end for the route.";
+  "Click on the map to set an incident location.";
 
+// Configure custom icon for coffeeshop points. https://developers.arcgis.com/documentation/mapping-and-location-services/place-finding/place-icons/
 const customIcon = L.icon({
   iconUrl: "./src/Coffee_or_Tea_15.svg",
   iconSize: [38, 95]
@@ -193,6 +194,8 @@ function findCoffeeShop() {
     directions.innerHTML = `<ul class="directions-list">${directionsHTML}</ul>`;
 
     startPoint = null;
+  }).catch((error) => {
+    console.error(`Error: ${error}`);
   });
 }
 

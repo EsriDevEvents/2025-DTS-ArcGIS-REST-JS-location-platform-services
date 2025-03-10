@@ -39,9 +39,13 @@ let startCoords, endCoords;
 function updateRoute() {
   solveRoute({
     stops: [startCoords, endCoords],
+    authentication,
+    // Allows any additional parameters not explicitly supported by rest-js to be passed to the REST API's underlying request
+    params: {
+      findBestSequence: true,
+    },
     // This is the default endpoint for solveRoute but we can pass a different one in here
     // endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve",
-    authentication,
   })
     .then((response) => {
       routeLines.clearLayers();

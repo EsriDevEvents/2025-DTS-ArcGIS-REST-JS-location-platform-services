@@ -48,6 +48,8 @@ map.on("click", async (event) => {
     authentication,
   });
 
+  console.log(response.results);
+  
   let popupContent;
   const featureSet = response.results[0].value.FeatureSet;
 
