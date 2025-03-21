@@ -37,7 +37,7 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-        },
+      },
     },
     {
       geometry: {
@@ -51,7 +51,7 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-      }
+      },
     },
     {
       geometry: {
@@ -65,7 +65,7 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-      }
+      },
     },
     {
       geometry: {
@@ -79,15 +79,15 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-      }
+      },
     },
     {
       geometry: {
         x: -116.547103,
         y: 33.828498,
       },
-      name: "Bluebird Days",
       attributes: {
+        name: "Bluebird Days",
         streetAddress: "395 N Palm Canyon Dr",
         locality: "Palm Springs",
         region: "CA",
@@ -107,7 +107,7 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-      }
+      },
     },
     {
       geometry: {
@@ -121,7 +121,7 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-      }
+      },
     },
     {
       geometry: {
@@ -135,7 +135,7 @@ const coffeeShops = {
         region: "CA",
         postcode: "92262",
         country: "US",
-      }
+      },
     },
   ],
 };
@@ -166,7 +166,7 @@ directions.innerHTML =
 // Configure custom icon for coffeeshop points. https://developers.arcgis.com/documentation/mapping-and-location-services/place-finding/place-icons/
 const customIcon = L.icon({
   iconUrl: "./src/Coffee_or_Tea_15.svg",
-  iconSize: [38, 95]
+  iconSize: [25, 75]
 });
 
 let startPoint;
@@ -182,9 +182,18 @@ function findCoffeeShop() {
     routeLines.clearLayers();
 
     L.geoJSON(response.routes.geoJson).addTo(routeLines);
+    
     response.facilities.features.forEach((facility) => {
       const coordinates = [facility.geometry.y, facility.geometry.x];
-      L.marker(coordinates, { icon: customIcon }).addTo(endLayerGroup);
+      console.log(facility.attributes.Name);
+
+      const coffeeShop = coffeeShops.features.find(
+        (feature) => feature.attributes.name === facility.attributes.Name
+      );
+
+      const popupContent = `<h3>${coffeeShop.attributes.name}</h3><span>${coffeeShop.attributes.streetAddress}</span>`
+
+      L.marker(coordinates, { icon: customIcon }).addTo(endLayerGroup).bindPopup(popupContent);
     });
 
     // use the response data to display the directions' features
